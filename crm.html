@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CRM - Studio Legale</title>
+    <link rel="stylesheet" href="crm.css" />
+  </head>
+  <body>
+    <div class="crm-container">
+      <header class="crm-header">
+        <h1>🎯 CRM Lead Management</h1>
+        <div class="header-stats">
+          <div class="stat">
+            <span class="stat-label">Totale</span>
+            <span class="stat-value" id="totalCount">0</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Nuovo</span>
+            <span class="stat-value" id="newCount">0</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">In Corso</span>
+            <span class="stat-value" id="inProgressCount">0</span>
+          </div>
+        </div>
+      </header>
+
+      <div class="crm-controls">
+        <input 
+          type="text" 
+          id="searchInput" 
+          placeholder="Cerca per nome, email, telefono..." 
+          class="search-box"
+        />
+        <select id="statusFilter" class="status-filter">
+          <option value="">Tutti gli stati</option>
+          <option value="Yeni">Nuovo</option>
+          <option value="In Corso">In Corso</option>
+          <option value="Completato">Completato</option>
+          <option value="Rifiutato">Rifiutato</option>
+        </select>
+      </div>
+
+      <div class="crm-table-wrapper">
+        <table class="crm-table">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Email</th>
+              <th>Telefono</th>
+              <th>Importo</th>
+              <th>Luogo</th>
+              <th>Stato</th>
+              <th>Data</th>
+              <th>Azioni</th>
+            </tr>
+          </thead>
+          <tbody id="leadsTable">
+            <tr class="loading">
+              <td colspan="8">Caricamento...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="modal" class="modal" hidden>
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <h2 id="modalTitle">Dettagli Lead</h2>
+          <div class="modal-body">
+            <p><strong>Nome:</strong> <span id="modalName"></span></p>
+            <p><strong>Email:</strong> <span id="modalEmail"></span></p>
+            <p><strong>Telefono:</strong> <span id="modalPhone"></span></p>
+            <p><strong>Importo:</strong> <span id="modalAmount"></span></p>
+            <p><strong>Luogo:</strong> <span id="modalWhere"></span></p>
+            <p><strong>Note:</strong> <span id="modalNotes"></span></p>
+            <div class="modal-status-update">
+              <label>Aggiorna Stato:</label>
+              <select id="modalStatusSelect">
+                <option value="Yeni">Nuovo</option>
+                <option value="In Corso">In Corso</option>
+                <option value="Completato">Completato</option>
+                <option value="Rifiutato">Rifiutato</option>
+              </select>
+              <button id="modalSaveBtn" class="save-btn">Salva</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="crm.js"></script>
+  </body>
+</html>

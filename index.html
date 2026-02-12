@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Assistenza legale per vittime di truffa</title>
+    <link rel="stylesheet" href="styles.css" />
+    <!-- Tracking placeholders: replace IDs in production -->
+    <!-- Meta Pixel ID: META_PIXEL_ID -->
+    <!-- Google Tag ID: G-XXXXXXXXXX -->
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-content">
+        <div class="brand">
+          <div class="logo" aria-hidden="true">⚖️</div>
+          <div>
+            <p class="brand-name">Studio Legale</p>
+            <p class="brand-tagline">Assistenza per vittime di truffe e frodi</p>
+          </div>
+        </div>
+        <nav class="site-nav">
+          <a href="#servizi">Servizi</a>
+          <a href="#processo">Come funziona</a>
+          <a href="#faq">FAQ</a>
+          <a href="crm.html" target="_blank" style="color: var(--accent);">📊 CRM</a>
+        </nav>
+        <div class="cta-pill">Valutazione preliminare gratuita</div>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="container hero-grid">
+          <div class="hero-copy">
+            <p class="eyebrow">Assistenza legale in Italia</p>
+            <h1>Hai subito una truffa? Valutiamo il tuo caso con riservatezza.</h1>
+            <p>
+              Un team legale specializzato analizza la documentazione, verifica le possibilità
+              di recupero e ti propone un percorso chiaro, senza promesse irrealistiche.
+            </p>
+            <ul class="hero-list">
+              <li>Riscontro preliminare entro 24 ore</li>
+              <li>Gestione conforme GDPR</li>
+              <li>Referente dedicato in lingua italiana</li>
+            </ul>
+            <div class="hero-badges">
+              <span>Studio legale registrato</span>
+              <span>Trattamento dati sicuro</span>
+              <span>Supporto multicanale</span>
+            </div>
+          </div>
+          <div class="form-card" aria-live="polite">
+            <h2>Richiedi una valutazione</h2>
+            <p class="form-subtitle">Compila i dati in modo accurato per accelerare la verifica.</p>
+
+            <form id="leadForm" novalidate>
+              <div class="field">
+                <label for="fullName">Nome e cognome</label>
+                <input id="fullName" name="fullName" type="text" placeholder="Mario Rossi" required />
+                <span class="error" data-error-for="fullName"></span>
+              </div>
+
+              <div class="field">
+                <label for="email">Email</label>
+                <input id="email" name="email" type="email" placeholder="mario@email.it" required />
+                <span class="error" data-error-for="email"></span>
+              </div>
+
+              <div class="field">
+                <label for="phone">Telefono</label>
+                <input id="phone" name="phone" type="tel" placeholder="+39 312 345 6789" required />
+                <span class="error" data-error-for="phone"></span>
+              </div>
+
+              <div class="field">
+                <label for="lossAmount">Importo perso</label>
+                <input id="lossAmount" name="lossAmount" type="number" min="0" step="0.01" placeholder="5000" required />
+                <span class="error" data-error-for="lossAmount"></span>
+              </div>
+
+              <div class="field">
+                <label for="lossWhere">Dove è avvenuta la perdita?</label>
+                <input id="lossWhere" name="lossWhere" type="text" placeholder="Piattaforma, banca, exchange, altro" required />
+                <span class="error" data-error-for="lossWhere"></span>
+              </div>
+
+              <div class="field">
+                <label for="notes">Note aggiuntive</label>
+                <textarea id="notes" name="notes" rows="4" placeholder="Descrivi brevemente cosa è successo"></textarea>
+              </div>
+
+              <div class="field honeypot" aria-hidden="true">
+                <label for="company">Azienda</label>
+                <input id="company" name="company" type="text" tabindex="-1" autocomplete="off" />
+              </div>
+
+              <div class="checkbox-field">
+                <input id="consent" name="consent" type="checkbox" required />
+                <label for="consent">
+                  Ho letto l’informativa privacy e autorizzo il trattamento dei dati per la
+                  valutazione del caso.
+                </label>
+              </div>
+              <p class="privacy-link">
+                <a href="privacy.html">Leggi l’informativa privacy</a>
+              </p>
+
+              <button type="submit" class="primary-button">Invia richiesta</button>
+            </form>
+
+            <div id="formError" class="form-error" hidden></div>
+
+            <div id="successMessage" class="success" hidden>
+              <h3>Grazie! La tua richiesta è stata ricevuta.</h3>
+              <p>Ti contatteremo entro 24 ore per i prossimi passi.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="servizi" class="trust">
+        <div class="container trust-grid">
+          <div>
+            <h2>Servizi legali dedicati</h2>
+            <p>
+              Gestiamo casi complessi con un approccio rigoroso e trasparente. Analizziamo i
+              fatti e ti indichiamo le opzioni praticabili nel quadro normativo italiano.
+            </p>
+          </div>
+          <div class="trust-cards">
+            <div class="trust-card">
+              <h3>Analisi documentale</h3>
+              <p>Valutiamo prove, transazioni e comunicazioni per definire la strategia.</p>
+            </div>
+            <div class="trust-card">
+              <h3>Piano d’azione</h3>
+              <p>Definiamo con te i prossimi passi e le tempistiche, senza promesse irrealistiche.</p>
+            </div>
+            <div class="trust-card">
+              <h3>Supporto continuo</h3>
+              <p>Ti aggiorniamo su ogni fase con un referente dedicato.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="processo" class="process">
+        <div class="container">
+          <h2>Come funziona</h2>
+          <div class="process-steps">
+            <div class="process-step">
+              <span class="step-number">1</span>
+              <h3>Invio informazioni</h3>
+              <p>Compili il modulo con i dettagli essenziali e allegati disponibili.</p>
+            </div>
+            <div class="process-step">
+              <span class="step-number">2</span>
+              <h3>Analisi preliminare</h3>
+              <p>Il team legale esamina i dati e verifica la percorribilità dell’azione.</p>
+            </div>
+            <div class="process-step">
+              <span class="step-number">3</span>
+              <h3>Proposta operativa</h3>
+              <p>Ricevi un riscontro con tempistiche, documenti necessari e possibili opzioni.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="faq" class="faq">
+        <div class="container">
+          <h2>Domande frequenti</h2>
+          <div class="faq-grid">
+            <div class="faq-item">
+              <h3>Quanto tempo serve per una risposta?</h3>
+              <p>Forniamo un riscontro preliminare entro 24 ore lavorative dalla richiesta.</p>
+            </div>
+            <div class="faq-item">
+              <h3>Garantite il recupero del denaro?</h3>
+              <p>No. Ogni caso viene valutato individualmente e nessun risultato è garantito.</p>
+            </div>
+            <div class="faq-item">
+              <h3>I miei dati sono protetti?</h3>
+              <p>Trattiamo i dati nel rispetto del GDPR e solo per finalità di valutazione.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-content">
+        <p>© 2026 Studio Legale. Tutti i diritti riservati.</p>
+        <p>Questo sito non garantisce risultati. Ogni caso è valutato singolarmente.</p>
+        <p>Per emergenze, contatta direttamente il tuo legale di fiducia.</p>
+      </div>
+    </footer>
+
+    <script src="main.js"></script>
+  </body>
+</html>
