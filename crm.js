@@ -377,15 +377,20 @@ elements.loginForm.addEventListener("submit", async (event) => {
   const email = elements.loginEmail.value.trim();
   const password = elements.loginPassword.value.trim();
 
+  setLoginStatus("Giris deneniyor...");
+
   const { error } = await state.supabase.auth.signInWithPassword({
     email,
     password,
   });
 
   if (error) {
-    showLoginError(t("invalid_credentials"));
+    setLoginStatus("");
+    showLoginError(`${t("invalid_credentials")}: ${error.message}`);
     return;
   }
+
+  setLoginStatus("Giris basarili, yonlendiriliyor...");
 });
 
 elements.logoutBtn.addEventListener("click", async () => {
