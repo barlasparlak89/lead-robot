@@ -174,11 +174,13 @@ const elements = {
 const showLogin = () => {
   elements.loginScreen.hidden = false;
   elements.crmApp.hidden = true;
+  elements.modal.hidden = true;
 };
 
 const showApp = () => {
   elements.loginScreen.hidden = true;
   elements.crmApp.hidden = false;
+  elements.modal.hidden = true;
 };
 
 const showLoginError = (message) => {
@@ -384,6 +386,7 @@ elements.logoutBtn.addEventListener("click", async () => {
 
 const init = async () => {
   try {
+    elements.modal.hidden = true;
     const config = await loadConfig();
     state.supabase = createClient(config.supabaseUrl, config.supabaseAnonKey);
 
