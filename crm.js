@@ -1,13 +1,19 @@
-const SUPABASE_URL = process.env.SUPABASE_URL || "https://cqlklhzkcfxkelyliurj.supabase.co";
-const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || "sb_publishable_y8bDIsh_zVbbOxkKmqWgKA_KTi_VpJT";
-
 const { createClient } = window.supabase;
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-let allLeads = [];
-let currentLead = null;
+const state = {
+  supabase: null,
+  allLeads: [],
+  currentLead: null,
+};
 
 const elements = {
+  loginScreen: document.getElementById("loginScreen"),
+  loginForm: document.getElementById("loginForm"),
+  loginEmail: document.getElementById("loginEmail"),
+  loginPassword: document.getElementById("loginPassword"),
+  loginError: document.getElementById("loginError"),
+  crmApp: document.getElementById("crmApp"),
+  logoutBtn: document.getElementById("logoutBtn"),
   leadsTable: document.getElementById("leadsTable"),
   searchInput: document.getElementById("searchInput"),
   statusFilter: document.getElementById("statusFilter"),
@@ -16,22 +22,40 @@ const elements = {
   totalCount: document.getElementById("totalCount"),
   newCount: document.getElementById("newCount"),
   inProgressCount: document.getElementById("inProgressCount"),
+  completedCount: document.getElementById("completedCount"),
+  rejectedCount: document.getElementById("rejectedCount"),
+  lastRefresh: document.getElementById("lastRefresh"),
 };
 
-elements.searchInput.addEventListener("input", filterLeads);
-elements.statusFilter.addEventListener("change", filterLeads);
-elements.closeModal.addEventListener("click", () => {
-  elements.modal.hidden = true;
-});
+const showLogin = () => {
+  elements.loginScreen.hidden = false;
+  elements.crmApp.hidden = true;
+};
 
-window.addEventListener("click", (e) => {
-  if (e.target === elements.modal) {
-    elements.modal.hidden = true;
+const showApp = () => {
+  elements.loginScreen.hidden = true;
+  elements.crmApp.hidden = false;
+};
+
+const showLoginError = (message) => {
+  elements.loginError.textContent = message;
+  elements.loginError.hidden = false;
+};
+
+const clearLoginError = () => {
+  elements.loginError.hidden = true;
+};
+
+const loadConfig = async () => {
+  const response = await fetch("/api/config");
+  if (!response.ok) {
+    throw new Error("Config non disponibile");
   }
-});
+  return response.json();
+};
 
 const fetchLeads = async () => {
-  const { data, error } = await supabase
+  const { data, error } = await state.supabase
     .from("leads")
     .select("*")
     .order("created_at", { ascending: false });
@@ -43,18 +67,27 @@ const fetchLeads = async () => {
     return;
   }
 
-  allLeads = data || [];
+  state.allLeads = data || [];
   updateStats();
-  renderLeads(allLeads);
+  renderLeads(state.allLeads);
 };
 
 const updateStats = () => {
-  elements.totalCount.textContent = allLeads.length;
-  elements.newCount.textContent = allLeads.filter((l) => l.status === "Yeni").length;
-  elements.inProgressCount.textContent = allLeads.filter(
+  elements.totalCount.textContent = state.allLeads.length;
+  elements.newCount.textContent = state.allLeads.filter((l) => l.status === "Yeni").length;
+  elements.inProgressCount.textContent = state.allLeads.filter(
     (l) => l.status === "In Corso"
   ).length;
+  elements.completedCount.textContent = state.allLeads.filter(
+    (l) => l.status === "Completato"
+  ).length;
+  elements.rejectedCount.textContent = state.allLeads.filter(
+    (l) => l.status === "Rifiutato"
+  ).length;
+  elements.lastRefresh.textContent = `Ultimo aggiornamento: ${new Date().toLocaleTimeString("it-IT")}`;
 };
+
+const statusClass = (status) => status.toLowerCase().replace(/\s+/g, "-");
 
 const renderLeads = (leads) => {
   if (leads.length === 0) {
@@ -72,7 +105,7 @@ const renderLeads = (leads) => {
       <td>${lead.phone}</td>
       <td>€ ${Number(lead.loss_amount).toFixed(2)}</td>
       <td>${lead.loss_where}</td>
-      <td><span class="status-badge ${lead.status}">${lead.status}</span></td>
+      <td><span class="status-badge ${statusClass(lead.status)}">${lead.status}</span></td>
       <td>${new Date(lead.created_at).toLocaleDateString("it-IT")}</td>
       <td>
         <div class="action-buttons">
@@ -90,7 +123,7 @@ const filterLeads = () => {
   const search = elements.searchInput.value.toLowerCase();
   const status = elements.statusFilter.value;
 
-  const filtered = allLeads.filter((lead) => {
+  const filtered = state.allLeads.filter((lead) => {
     const matchesSearch =
       lead.full_name.toLowerCase().includes(search) ||
       lead.email.toLowerCase().includes(search) ||
@@ -103,29 +136,29 @@ const filterLeads = () => {
 };
 
 const openModal = async (leadId) => {
-  currentLead = allLeads.find((l) => l.id === leadId);
-  if (!currentLead) return;
+  state.currentLead = state.allLeads.find((l) => l.id === leadId);
+  if (!state.currentLead) return;
 
-  document.getElementById("modalName").textContent = currentLead.full_name;
-  document.getElementById("modalEmail").textContent = currentLead.email;
-  document.getElementById("modalPhone").textContent = currentLead.phone;
-  document.getElementById("modalAmount").textContent = `€ ${Number(currentLead.loss_amount).toFixed(2)}`;
-  document.getElementById("modalWhere").textContent = currentLead.loss_where;
-  document.getElementById("modalNotes").textContent = currentLead.notes || "-";
-  document.getElementById("modalStatusSelect").value = currentLead.status;
+  document.getElementById("modalName").textContent = state.currentLead.full_name;
+  document.getElementById("modalEmail").textContent = state.currentLead.email;
+  document.getElementById("modalPhone").textContent = state.currentLead.phone;
+  document.getElementById("modalAmount").textContent = `€ ${Number(state.currentLead.loss_amount).toFixed(2)}`;
+  document.getElementById("modalWhere").textContent = state.currentLead.loss_where;
+  document.getElementById("modalNotes").textContent = state.currentLead.notes || "-";
+  document.getElementById("modalStatusSelect").value = state.currentLead.status;
 
   document.getElementById("modalSaveBtn").onclick = saveStatus;
   elements.modal.hidden = false;
 };
 
 const saveStatus = async () => {
-  if (!currentLead) return;
+  if (!state.currentLead) return;
 
   const newStatus = document.getElementById("modalStatusSelect").value;
-  const { error } = await supabase
+  const { error } = await state.supabase
     .from("leads")
     .update({ status: newStatus })
-    .eq("id", currentLead.id);
+    .eq("id", state.currentLead.id);
 
   if (error) {
     console.error("Error updating status:", error);
@@ -140,7 +173,7 @@ const saveStatus = async () => {
 const deleteLead = async (leadId) => {
   if (!confirm("Sei sicuro di voler cancellare questo lead?")) return;
 
-  const { error } = await supabase.from("leads").delete().eq("id", leadId);
+  const { error } = await state.supabase.from("leads").delete().eq("id", leadId);
 
   if (error) {
     console.error("Error deleting lead:", error);
@@ -151,8 +184,66 @@ const deleteLead = async (leadId) => {
   fetchLeads();
 };
 
-// Initial load
-fetchLeads();
+elements.searchInput.addEventListener("input", filterLeads);
+elements.statusFilter.addEventListener("change", filterLeads);
+elements.closeModal.addEventListener("click", () => {
+  elements.modal.hidden = true;
+});
 
-// Refresh every 30 seconds
-setInterval(fetchLeads, 30000);
+window.addEventListener("click", (e) => {
+  if (e.target === elements.modal) {
+    elements.modal.hidden = true;
+  }
+});
+
+elements.loginForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  clearLoginError();
+
+  const email = elements.loginEmail.value.trim();
+  const password = elements.loginPassword.value.trim();
+
+  const { error } = await state.supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
+
+  if (error) {
+    showLoginError("Credenziali non valide");
+    return;
+  }
+});
+
+elements.logoutBtn.addEventListener("click", async () => {
+  await state.supabase.auth.signOut();
+  showLogin();
+});
+
+const init = async () => {
+  try {
+    const config = await loadConfig();
+    state.supabase = createClient(config.supabaseUrl, config.supabaseAnonKey);
+
+    const { data } = await state.supabase.auth.getSession();
+    if (data.session) {
+      showApp();
+      fetchLeads();
+      setInterval(fetchLeads, 30000);
+    } else {
+      showLogin();
+    }
+
+    state.supabase.auth.onAuthStateChange((_event, session) => {
+      if (session) {
+        showApp();
+        fetchLeads();
+      } else {
+        showLogin();
+      }
+    });
+  } catch (error) {
+    showLoginError("Configurazione mancante. Contatta l'amministratore.");
+  }
+};
+
+init();

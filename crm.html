@@ -7,61 +7,116 @@
     <link rel="stylesheet" href="crm.css" />
   </head>
   <body>
-    <div class="crm-container">
-      <header class="crm-header">
-        <h1>🎯 CRM Lead Management</h1>
-        <div class="header-stats">
-          <div class="stat">
-            <span class="stat-label">Totale</span>
-            <span class="stat-value" id="totalCount">0</span>
+    <div class="login-screen" id="loginScreen">
+      <div class="login-card">
+        <h1>Accesso CRM</h1>
+        <p>Inserisci le credenziali admin per continuare.</p>
+        <form id="loginForm">
+          <div class="login-field">
+            <label for="loginEmail">Email</label>
+            <input id="loginEmail" type="email" required />
           </div>
-          <div class="stat">
-            <span class="stat-label">Nuovo</span>
-            <span class="stat-value" id="newCount">0</span>
+          <div class="login-field">
+            <label for="loginPassword">Password</label>
+            <input id="loginPassword" type="password" required />
           </div>
-          <div class="stat">
-            <span class="stat-label">In Corso</span>
-            <span class="stat-value" id="inProgressCount">0</span>
-          </div>
-        </div>
-      </header>
-
-      <div class="crm-controls">
-        <input 
-          type="text" 
-          id="searchInput" 
-          placeholder="Cerca per nome, email, telefono..." 
-          class="search-box"
-        />
-        <select id="statusFilter" class="status-filter">
-          <option value="">Tutti gli stati</option>
-          <option value="Yeni">Nuovo</option>
-          <option value="In Corso">In Corso</option>
-          <option value="Completato">Completato</option>
-          <option value="Rifiutato">Rifiutato</option>
-        </select>
+          <button type="submit" class="login-button">Entra</button>
+          <div id="loginError" class="login-error" hidden></div>
+        </form>
       </div>
+    </div>
 
-      <div class="crm-table-wrapper">
-        <table class="crm-table">
-          <thead>
-            <tr>
-              <th>Nome</th>
-              <th>Email</th>
-              <th>Telefono</th>
-              <th>Importo</th>
-              <th>Luogo</th>
-              <th>Stato</th>
-              <th>Data</th>
-              <th>Azioni</th>
-            </tr>
-          </thead>
-          <tbody id="leadsTable">
-            <tr class="loading">
-              <td colspan="8">Caricamento...</td>
-            </tr>
-          </tbody>
-        </table>
+    <div class="crm-container" id="crmApp" hidden>
+      <div class="crm-layout">
+        <aside class="crm-sidebar">
+          <div class="brand-block">
+            <div class="brand-logo">SL</div>
+            <div>
+              <h2>Studio Legale</h2>
+              <p>CRM amministrazione</p>
+            </div>
+          </div>
+          <nav class="crm-menu">
+            <button class="menu-item active">Dashboard</button>
+            <button class="menu-item">Lead</button>
+            <button class="menu-item">Report</button>
+          </nav>
+          <div class="sidebar-card">
+            <h3>Risposte rapide</h3>
+            <p>Usa filtri e stato per gestire le priorita.</p>
+          </div>
+          <button id="logoutBtn" class="logout-button">Logout</button>
+        </aside>
+
+        <section class="crm-main">
+          <header class="crm-header">
+            <div>
+              <h1>Dashboard Lead</h1>
+              <p id="lastRefresh">Ultimo aggiornamento: --</p>
+            </div>
+          </header>
+
+          <div class="kpi-grid">
+            <div class="kpi-card">
+              <span>Totale lead</span>
+              <strong id="totalCount">0</strong>
+            </div>
+            <div class="kpi-card">
+              <span>Nuovo</span>
+              <strong id="newCount">0</strong>
+            </div>
+            <div class="kpi-card">
+              <span>In Corso</span>
+              <strong id="inProgressCount">0</strong>
+            </div>
+            <div class="kpi-card">
+              <span>Completato</span>
+              <strong id="completedCount">0</strong>
+            </div>
+            <div class="kpi-card">
+              <span>Rifiutato</span>
+              <strong id="rejectedCount">0</strong>
+            </div>
+          </div>
+
+          <div class="crm-controls">
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Cerca per nome, email, telefono..."
+              class="search-box"
+            />
+            <select id="statusFilter" class="status-filter">
+              <option value="">Tutti gli stati</option>
+              <option value="Yeni">Nuovo</option>
+              <option value="In Corso">In Corso</option>
+              <option value="Completato">Completato</option>
+              <option value="Rifiutato">Rifiutato</option>
+            </select>
+          </div>
+
+          <div class="crm-table-wrapper">
+            <table class="crm-table">
+              <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th>Email</th>
+                  <th>Telefono</th>
+                  <th>Importo</th>
+                  <th>Luogo</th>
+                  <th>Stato</th>
+                  <th>Data</th>
+                  <th>Azioni</th>
+                </tr>
+              </thead>
+              <tbody id="leadsTable">
+                <tr class="loading">
+                  <td colspan="8">Caricamento...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
       </div>
 
       <div id="modal" class="modal" hidden>
