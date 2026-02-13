@@ -391,6 +391,8 @@ elements.loginForm.addEventListener("submit", async (event) => {
   }
 
   setLoginStatus("Giris basarili, yonlendiriliyor...");
+  showApp();
+  fetchLeads();
 });
 
 elements.logoutBtn.addEventListener("click", async () => {
