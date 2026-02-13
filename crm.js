@@ -53,6 +53,7 @@ const translations = {
     modal_notes: "Not:",
     modal_status: "Durumu guncelle:",
     modal_save: "Kaydet",
+    modal_close: "Kapat",
     btn_view: "Gor",
     btn_delete: "Sil",
     load_error: "Veriler yuklenemedi",
@@ -108,6 +109,7 @@ const translations = {
     modal_notes: "Notes:",
     modal_status: "Update status:",
     modal_save: "Save",
+    modal_close: "Close",
     btn_view: "View",
     btn_delete: "Delete",
     load_error: "Failed to load data",
@@ -160,6 +162,7 @@ const elements = {
   statusFilter: document.getElementById("statusFilter"),
   modal: document.getElementById("modal"),
   closeModal: document.querySelector(".close"),
+  modalCloseBtn: document.getElementById("modalCloseBtn"),
   totalCount: document.getElementById("totalCount"),
   newCount: document.getElementById("newCount"),
   inProgressCount: document.getElementById("inProgressCount"),
@@ -340,8 +343,18 @@ elements.closeModal.addEventListener("click", () => {
   elements.modal.hidden = true;
 });
 
+elements.modalCloseBtn.addEventListener("click", () => {
+  elements.modal.hidden = true;
+});
+
 window.addEventListener("click", (e) => {
   if (e.target === elements.modal) {
+    elements.modal.hidden = true;
+  }
+});
+
+window.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && !elements.modal.hidden) {
     elements.modal.hidden = true;
   }
 });
