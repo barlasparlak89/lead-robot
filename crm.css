@@ -107,6 +107,12 @@ body {
   font-size: 13px;
 }
 
+.login-status {
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
 .crm-container {
   max-width: 1400px;
   margin: 0 auto;

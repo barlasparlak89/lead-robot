@@ -155,6 +155,7 @@ const elements = {
   loginEmail: document.getElementById("loginEmail"),
   loginPassword: document.getElementById("loginPassword"),
   loginError: document.getElementById("loginError"),
+  loginStatus: document.getElementById("loginStatus"),
   crmApp: document.getElementById("crmApp"),
   logoutBtn: document.getElementById("logoutBtn"),
   leadsTable: document.getElementById("leadsTable"),
@@ -190,6 +191,10 @@ const showLoginError = (message) => {
 
 const clearLoginError = () => {
   elements.loginError.hidden = true;
+};
+
+const setLoginStatus = (message) => {
+  elements.loginStatus.textContent = message || "";
 };
 
 const loadConfig = async () => {
@@ -364,6 +369,10 @@ window.addEventListener("keydown", (event) => {
 elements.loginForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   clearLoginError();
+  if (!state.supabase) {
+    showLoginError(t("config_missing"));
+    return;
+  }
 
   const email = elements.loginEmail.value.trim();
   const password = elements.loginPassword.value.trim();
@@ -387,8 +396,10 @@ elements.logoutBtn.addEventListener("click", async () => {
 const init = async () => {
   try {
     elements.modal.hidden = true;
+    setLoginStatus("Connessione in corso...");
     const config = await loadConfig();
     state.supabase = createClient(config.supabaseUrl, config.supabaseAnonKey);
+    setLoginStatus("Connessione pronta.");
 
     const { data } = await state.supabase.auth.getSession();
     if (data.session) {
@@ -408,6 +419,7 @@ const init = async () => {
       }
     });
   } catch (error) {
+    setLoginStatus("");
     showLoginError(t("config_missing"));
   }
 };
