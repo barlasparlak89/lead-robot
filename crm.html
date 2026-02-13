@@ -9,18 +9,24 @@
   <body>
     <div class="login-screen" id="loginScreen">
       <div class="login-card">
-        <h1>Accesso CRM</h1>
-        <p>Inserisci le credenziali admin per continuare.</p>
+        <div class="login-header">
+          <h1 data-i18n="login_title">CRM Giris</h1>
+          <div class="lang-switch" aria-label="Language switch">
+            <button class="lang-btn" type="button" data-lang="tr">TR</button>
+            <button class="lang-btn" type="button" data-lang="en">EN</button>
+          </div>
+        </div>
+        <p data-i18n="login_subtitle">Devam etmek icin admin bilgilerini gir.</p>
         <form id="loginForm">
           <div class="login-field">
-            <label for="loginEmail">Email</label>
-            <input id="loginEmail" type="email" required />
+            <label for="loginEmail" data-i18n="login_email">Email</label>
+            <input id="loginEmail" type="email" required data-i18n-placeholder="login_email_placeholder" />
           </div>
           <div class="login-field">
-            <label for="loginPassword">Password</label>
-            <input id="loginPassword" type="password" required />
+            <label for="loginPassword" data-i18n="login_password">Sifre</label>
+            <input id="loginPassword" type="password" required data-i18n-placeholder="login_password_placeholder" />
           </div>
-          <button type="submit" class="login-button">Entra</button>
+          <button type="submit" class="login-button" data-i18n="login_button">Giris</button>
           <div id="loginError" class="login-error" hidden></div>
         </form>
       </div>
@@ -32,49 +38,53 @@
           <div class="brand-block">
             <div class="brand-logo">SL</div>
             <div>
-              <h2>Studio Legale</h2>
-              <p>CRM amministrazione</p>
+              <h2 data-i18n="brand_title">Studio Legale</h2>
+              <p data-i18n="brand_subtitle">CRM yonetim</p>
             </div>
           </div>
           <nav class="crm-menu">
-            <button class="menu-item active">Dashboard</button>
-            <button class="menu-item">Lead</button>
-            <button class="menu-item">Report</button>
+            <button class="menu-item active" data-i18n="menu_dashboard">Dashboard</button>
+            <button class="menu-item" data-i18n="menu_leads">Lead</button>
+            <button class="menu-item" data-i18n="menu_reports">Raporlar</button>
           </nav>
           <div class="sidebar-card">
-            <h3>Risposte rapide</h3>
-            <p>Usa filtri e stato per gestire le priorita.</p>
+            <h3 data-i18n="sidebar_quick">Hizli notlar</h3>
+            <p data-i18n="sidebar_tip">Filtre ve durum ile oncelikleri yonet.</p>
           </div>
-          <button id="logoutBtn" class="logout-button">Logout</button>
+          <button id="logoutBtn" class="logout-button" data-i18n="logout">Cikis</button>
         </aside>
 
         <section class="crm-main">
           <header class="crm-header">
             <div>
-              <h1>Dashboard Lead</h1>
-              <p id="lastRefresh">Ultimo aggiornamento: --</p>
+              <h1 data-i18n="dashboard_title">Lead Dashboard</h1>
+              <p id="lastRefresh" data-i18n="last_refresh">Son guncelleme: --</p>
+            </div>
+            <div class="lang-switch" aria-label="Language switch">
+              <button class="lang-btn" type="button" data-lang="tr">TR</button>
+              <button class="lang-btn" type="button" data-lang="en">EN</button>
             </div>
           </header>
 
           <div class="kpi-grid">
             <div class="kpi-card">
-              <span>Totale lead</span>
+              <span data-i18n="kpi_total">Toplam lead</span>
               <strong id="totalCount">0</strong>
             </div>
             <div class="kpi-card">
-              <span>Nuovo</span>
+              <span data-i18n="kpi_new">Yeni</span>
               <strong id="newCount">0</strong>
             </div>
             <div class="kpi-card">
-              <span>In Corso</span>
+              <span data-i18n="kpi_in_progress">Islemde</span>
               <strong id="inProgressCount">0</strong>
             </div>
             <div class="kpi-card">
-              <span>Completato</span>
+              <span data-i18n="kpi_completed">Tamamlandi</span>
               <strong id="completedCount">0</strong>
             </div>
             <div class="kpi-card">
-              <span>Rifiutato</span>
+              <span data-i18n="kpi_rejected">Reddedildi</span>
               <strong id="rejectedCount">0</strong>
             </div>
           </div>
@@ -83,15 +93,16 @@
             <input
               type="text"
               id="searchInput"
-              placeholder="Cerca per nome, email, telefono..."
+              placeholder=""
               class="search-box"
+              data-i18n-placeholder="search_placeholder"
             />
             <select id="statusFilter" class="status-filter">
-              <option value="">Tutti gli stati</option>
-              <option value="Yeni">Nuovo</option>
-              <option value="In Corso">In Corso</option>
-              <option value="Completato">Completato</option>
-              <option value="Rifiutato">Rifiutato</option>
+              <option value="" data-i18n="filter_all">Tum durumlar</option>
+              <option value="Yeni" data-i18n="status_new">Yeni</option>
+              <option value="In Corso" data-i18n="status_in_progress">Islemde</option>
+              <option value="Completato" data-i18n="status_completed">Tamamlandi</option>
+              <option value="Rifiutato" data-i18n="status_rejected">Reddedildi</option>
             </select>
           </div>
 
@@ -99,14 +110,14 @@
             <table class="crm-table">
               <thead>
                 <tr>
-                  <th>Nome</th>
-                  <th>Email</th>
-                  <th>Telefono</th>
-                  <th>Importo</th>
-                  <th>Luogo</th>
-                  <th>Stato</th>
-                  <th>Data</th>
-                  <th>Azioni</th>
+                  <th data-i18n="th_name">Ad Soyad</th>
+                  <th data-i18n="th_email">Email</th>
+                  <th data-i18n="th_phone">Telefon</th>
+                  <th data-i18n="th_amount">Miktar</th>
+                  <th data-i18n="th_where">Nerede</th>
+                  <th data-i18n="th_status">Durum</th>
+                  <th data-i18n="th_date">Tarih</th>
+                  <th data-i18n="th_actions">Islemler</th>
                 </tr>
               </thead>
               <tbody id="leadsTable">
@@ -122,23 +133,23 @@
       <div id="modal" class="modal" hidden>
         <div class="modal-content">
           <span class="close">&times;</span>
-          <h2 id="modalTitle">Dettagli Lead</h2>
+          <h2 id="modalTitle" data-i18n="modal_title">Lead detaylari</h2>
           <div class="modal-body">
-            <p><strong>Nome:</strong> <span id="modalName"></span></p>
-            <p><strong>Email:</strong> <span id="modalEmail"></span></p>
-            <p><strong>Telefono:</strong> <span id="modalPhone"></span></p>
-            <p><strong>Importo:</strong> <span id="modalAmount"></span></p>
-            <p><strong>Luogo:</strong> <span id="modalWhere"></span></p>
-            <p><strong>Note:</strong> <span id="modalNotes"></span></p>
+            <p><strong data-i18n="modal_name">Ad Soyad:</strong> <span id="modalName"></span></p>
+            <p><strong data-i18n="modal_email">Email:</strong> <span id="modalEmail"></span></p>
+            <p><strong data-i18n="modal_phone">Telefon:</strong> <span id="modalPhone"></span></p>
+            <p><strong data-i18n="modal_amount">Miktar:</strong> <span id="modalAmount"></span></p>
+            <p><strong data-i18n="modal_where">Nerede:</strong> <span id="modalWhere"></span></p>
+            <p><strong data-i18n="modal_notes">Not:</strong> <span id="modalNotes"></span></p>
             <div class="modal-status-update">
-              <label>Aggiorna Stato:</label>
+              <label data-i18n="modal_status">Durumu guncelle:</label>
               <select id="modalStatusSelect">
-                <option value="Yeni">Nuovo</option>
-                <option value="In Corso">In Corso</option>
-                <option value="Completato">Completato</option>
-                <option value="Rifiutato">Rifiutato</option>
+                <option value="Yeni" data-i18n="status_new">Yeni</option>
+                <option value="In Corso" data-i18n="status_in_progress">Islemde</option>
+                <option value="Completato" data-i18n="status_completed">Tamamlandi</option>
+                <option value="Rifiutato" data-i18n="status_rejected">Reddedildi</option>
               </select>
-              <button id="modalSaveBtn" class="save-btn">Salva</button>
+              <button id="modalSaveBtn" class="save-btn" data-i18n="modal_save">Kaydet</button>
             </div>
           </div>
         </div>

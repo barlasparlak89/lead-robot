@@ -38,6 +38,13 @@ body {
   box-shadow: 0 24px 48px rgba(0, 0, 0, 0.35);
 }
 
+.login-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
 .login-card h1 {
   margin: 0 0 8px;
 }
@@ -45,6 +52,27 @@ body {
 .login-card p {
   margin: 0 0 20px;
   color: var(--muted);
+}
+
+.lang-switch {
+  display: flex;
+  gap: 6px;
+}
+
+.lang-btn {
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.lang-btn.active {
+  border-color: rgba(59, 130, 246, 0.6);
+  background: rgba(59, 130, 246, 0.15);
 }
 
 .login-field {
