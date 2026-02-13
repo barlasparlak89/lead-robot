@@ -405,7 +405,14 @@ const init = async () => {
     elements.modal.hidden = true;
     setLoginStatus("Connessione in corso...");
     const config = await loadConfig();
-    state.supabase = createClient(config.supabaseUrl, config.supabaseAnonKey);
+    state.supabase = createClient(config.supabaseUrl, config.supabaseAnonKey, {
+      auth: {
+        persistSession: true,
+        storage: window.localStorage,
+        autoRefreshToken: true,
+        detectSessionInUrl: true,
+      },
+    });
     setLoginStatus("Connessione pronta.");
 
     const { data } = await state.supabase.auth.getSession();
@@ -417,7 +424,8 @@ const init = async () => {
       showLogin();
     }
 
-    state.supabase.auth.onAuthStateChange((_event, session) => {
+    state.supabase.auth.onAuthStateChange((event, session) => {
+      console.log("Auth event:", event, !!session);
       if (session) {
         showApp();
         fetchLeads();
